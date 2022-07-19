@@ -1,6 +1,15 @@
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;700&display=swap');
+
 :root {
   --brightBlue: hsl(220, 98%, 61%);
   --checkBackground: linear-gradient(hsl(192, 100%, 67%), hsl(280, 87%, 65%));
+  --VeryDarkBlue: hsl(235, 21%, 11%);
+  --VeryDarkDesaturatedBlue: hsl(235, 24%, 19%);
+  --LightGrayishBlue: hsl(234, 39%, 85%);
+  --LightGrayishBluehover: hsl(236, 33%, 92%);
+  --DarkGrayishBlue: hsl(234, 11%, 52%);
+  --VeryDarkGrayishBlue1: hsl(233, 14%, 35%);
+  --VeryDarkGrayishBlue2: hsl(237, 14%, 26%);
 }
 
 #root {
@@ -9,10 +18,14 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: url('./images/bg-desktop-dark.jpg'), #181824;
+  background: url('./images/bg-desktop-dark.jpg'), var(--VeryDarkBlue);
   background-repeat: no-repeat, no-repeat;
   background-position: top, center;
-  background-size: contain, cover;
+  background-size: 100% 40%, cover;
+}
+
+* {
+  font-family: 'Josefin Sans', sans-serif;
 }
 
 .App {
@@ -28,11 +41,16 @@
   justify-content: space-between;
   height: 12vh;
 }
+.Header-title {
+  font-size: clamp(1.25rem, calc(0.9rem + 1.75vw), 3rem);
+  letter-spacing: 0.4em;
+  color: whitesmoke;
+}
 
 form {
   width: 100%;
   height: 7vh;
-  color: #d3d5ec;
+  color: var(--LightGrayishBlue);
   display: flex;
   position: relative;
   display: flex;
@@ -54,13 +72,13 @@ form {
 }
 
 form input {
-  background-color: #25273c;
+  background-color: var(--VeryDarkDesaturatedBlue);
   border: none;
   outline: none;
   width: 100%;
   height: 100%;
-  color: #d3d5ec;
-  font-size: 1.6em;
+  color: var(--LightGrayishBlue);
+  font-size: clamp(1rem, calc(0.88rem + 0.6vw), 1.6rem);
   border-radius: 0.2em;
   padding-left: 2.5em;
 }
@@ -77,11 +95,17 @@ ul {
 ul li {
   width: 100%;
   height: 5em;
-  background-color: #d3d5ec;
-  border-bottom: 1px solid black;
+  background-color: var(--VeryDarkDesaturatedBlue);
+  color: var(--LightGrayishBlue);
+  border-bottom: 1px solid var(--VeryDarkGrayishBlue2);
   display: flex;
   align-items: center;
   justify-content: space-between;
+  cursor: pointer;
+}
+
+ul li:hover .cross-img {
+  visibility: visible;
 }
 
 ul li:nth-child(1) {
@@ -117,23 +141,33 @@ ul li:nth-child(1) {
 .circle:hover,
 .list-circle:hover {
   border: 1px solid var(--brightBlue);
+  cursor: pointer;
 }
 
 .task {
   width: calc(100% - 3.5em);
-  font-size: 2em;
-  padding-bottom: 0.2em;
+  font-size: clamp(1rem, calc(0.8rem + 1vw), 2rem);
+  height: auto;
+  font-weight: 400;
+  cursor: pointer;
+}
+
+.line-through {
+  text-decoration-line: line-through;
+  color: var(--VeryDarkGrayishBlue1);
 }
 
 .cross-img {
   width: 1.5em;
   margin-right: 0.5em;
+  visibility: hidden;
+  cursor: pointer;
 }
 
 .app-footer {
   width: 100%;
   height: 5.5vh;
-  background-color: #ffffff;
+  background-color: var(--VeryDarkDesaturatedBlue);
   display: flex;
   align-items: center;
   justify-content: space-around;
@@ -144,16 +178,27 @@ ul li:nth-child(1) {
 
 .app-footer p {
   height: 2em;
-  font-size: 1em;
+  font-size: clamp(0.75rem, calc(0.7rem + 0.25vw), 1rem);
+  color: var(--VeryDarkGrayishBlue1);
   line-height: 1.8em;
 }
 
 .btn {
-  font-size: 1em;
+  font-size: clamp(0.75rem, calc(0.7rem + 0.25vw), 1rem);
+  font-weight: 700;
+  color: var(--VeryDarkGrayishBlue1);
   border: none;
   background-color: transparent;
 }
 
 .bg {
   background: var(--checkBackground);
+}
+
+button:hover {
+  cursor: pointer;
+}
+
+.active {
+  color: var(--brightBlue);
 }

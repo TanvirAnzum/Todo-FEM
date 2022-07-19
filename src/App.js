@@ -10,10 +10,12 @@ function App() {
   const [themeStatus, setThemeStatus] = useState(true);
   const [task, setTask] = useState('');
   const [taskList, setTaskList] = useState([]);
-
   const [isPressed, setIsPressed] = useState(false);
-
   const [displayTask, setDisplayTask] = useState([]);
+
+  const [activeElem, setActiveElem] = useState(null);
+
+  
 
   const changeTheme = () => {
     if (themeStatus) setThemeStatus(false);
@@ -29,9 +31,9 @@ function App() {
       isFinished: false,
     };
     newTask.isFinished = isPressed ? true : false;
-    if(task) {
-      setTaskList([newTask,...taskList]);
-      setDisplayTask([newTask,...displayTask]);
+    if (task) {
+      setTaskList([newTask, ...taskList]);
+      setDisplayTask([newTask, ...displayTask]);
       setTask('');
       setIsPressed(false);
     }
@@ -48,17 +50,55 @@ function App() {
     setDisplayTask(afterDeletion);
   };
 
-  const showCompletedTask = () => {
+  const showCompletedTask = (event) => {
+    const target = event.target;
+    if(!activeElem) {
+      const all_btn = document.querySelector('.all');
+      all_btn.classList.remove('active');
+      target.classList.add('active');
+      setActiveElem(target);
+    }
+    else {
+      activeElem.classList.remove("active");
+      target.classList.add("active");
+      setActiveElem(target);
+    }
+
+
     const Ctask = taskList.filter(task => task.isFinished === true);
     setDisplayTask([...Ctask]);
   };
 
-  const showActiveTask = () => {
+  const showActiveTask = (event) => {
+    const target = event.target;
+
+    if(!activeElem) {
+      const all_btn = document.querySelector('.all');
+      all_btn.classList.remove('active');
+      target.classList.add('active');
+      setActiveElem(target);
+    }
+    else {
+      activeElem.classList.remove("active");
+      target.classList.add("active");
+      setActiveElem(target);
+    }
+
+
     const Atask = taskList.filter(task => task.isFinished === false);
     setDisplayTask([...Atask]);
   };
 
-  const showAllTask = () => {
+  const showAllTask = (event) => {
+    const target = event.target;
+    
+    if(activeElem) {
+      activeElem.classList.remove("active");
+      target.classList.add("active");
+      setActiveElem(target);
+    }
+    
+
     setDisplayTask(taskList);
   };
 
@@ -92,12 +132,13 @@ function App() {
           addTask(event);
         }}
       >
-        <span className="circle" onClick={() => setIsPressed(true)}>
-          <img className="check-1" id={task.id} src={iconCheck} alt="check icon" />
+        <span className={isPressed ? "circle bg" : "circle"} onClick={() => setIsPressed(true)}>
+          <img className={isPressed ? "check-1-up" : "check-1"} src={iconCheck} alt="check icon" />
         </span>
         <input
           type="text"
           value={task}
+          placeholder="Create a new todo..."
           onChange={(e) => setTask(e.target.value)}
         />
       </form>
@@ -105,10 +146,10 @@ function App() {
         {displayTask.map((task) => (
           <li>
             <span
-              className={task.isFinished ? "list-circle bg":"list-circle" }
+              className={task.isFinished ? "list-circle bg" : "list-circle"}
               onClick={() => markedCompleted(task.id)}
             ><img className={task.isFinished ? 'check-2-up' : 'check-2'} src={iconCheck} alt="" /></span>
-            <p className="task">{task.content}</p>
+            <p className={task.isFinished ? 'task line-through' : 'task'}>{task.content}</p>
             <span onClick={() => deleteTask(task.id)}>
               <img className="cross-img" src={iconCross} alt="cross icon" />
             </span>
@@ -118,13 +159,13 @@ function App() {
       <div className="app-footer">
         <p>{taskList.filter(task => task.isFinished === false).length} items left</p>
         <span>
-          <button className="btn" onClick={showAllTask}>
+          <button className="btn active all" onClick={(event) => showAllTask(event)}>
             All
           </button>
-          <button className="btn" onClick={showActiveTask}>
+          <button className="btn" onClick={(event) => showActiveTask(event)}>
             Active
           </button>
-          <button className="btn" onClick={showCompletedTask}>
+          <button className="btn" onClick={(event) => showCompletedTask(event)}>
             Completed
           </button>
         </span>
